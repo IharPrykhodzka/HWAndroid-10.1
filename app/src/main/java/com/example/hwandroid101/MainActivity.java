@@ -20,11 +20,18 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     private List<Map<String, String>> contentList;
+    private final String TEXT = "text";
+    private final String SIZE = "length";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initList();
+    }
+
+    private void initList() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,25 +46,24 @@ public class MainActivity extends AppCompatActivity {
 
     @NonNull
     private SimpleAdapter createAdapter(String[] stringsTxt) {
-        contentList = new ArrayList<>();
-        prepareAdapterContetn(stringsTxt);
+        contentList = new ArrayList<>(stringsTxt.length);
+        prepareAdapterContent(stringsTxt);
 
         return new SimpleAdapter(this, contentList,
                 R.layout.list_with_content,
-                new String[]{"text", "length"},
+                new String[]{TEXT, SIZE},
                 new int[]{R.id.firstText, R.id.secondText});
     }
 
     @NonNull
-    private List<Map<String, String>> prepareAdapterContetn(String[] stringsTxt) {
+    private void prepareAdapterContent(String[] stringsTxt) {
         Map<String, String> mapForList;
         for (String value : stringsTxt) {
             mapForList = new HashMap<>();
-            mapForList.put("text", value);
-            mapForList.put("length", Integer.toString(value.length()));
+            mapForList.put(TEXT, value);
+            mapForList.put(SIZE, Integer.toString(value.length()));
             contentList.add(mapForList);
         }
-        return contentList;
     }
 
     @NonNull
